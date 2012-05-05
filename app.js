@@ -21,7 +21,8 @@ var drinkerModel = mongodb.model('drinkers', drinkers);
 
 var shops = new Schema({
     name: { type: String, required: true },
-    location: { type: String, required: true }
+    location: { type: String, required: true },
+    amount: { type:Number, required:false }
 });
 
 var shopsModel = mongodb.model('shops', shops);  
@@ -80,6 +81,7 @@ app.post('/shops/add', function (req, res)  {
   shop = new shopsModel ({
     name: req.body.name,
     location: req.body.location,
+    amount:req.body.amount,
   });
   shop.save(function (err) {
     if(!err) {
