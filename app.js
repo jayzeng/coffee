@@ -17,13 +17,12 @@ var drinkers = new Schema({
     lastName: { type: String, required: true }
 });
 
-var drinkerModel = mongodb.model('drinkers', drinkers);  
-
 var shops = new Schema({
     name: { type: String, required: true },
     location: { type: String, required: true }
 });
 
+var drinkerModel = mongodb.model('drinkers', drinkers);  
 var shopsModel = mongodb.model('shops', shops);  
 var app = module.exports = express.createServer();
 
@@ -51,6 +50,9 @@ app.get('/', routes.index);
 // Routing 
 // GET drinkers - populate all drinkers
 app.get('/drinkers', function (req, res) {
+  res.header('Content-Length', 'application/json');
+  console.log(res.params);
+
   return drinkerModel.find(function(errors, drinkers) {
     if(errors) {
         console.log(errors);
@@ -62,6 +64,8 @@ app.get('/drinkers', function (req, res) {
 
 // GET shops - fetch all Shops
 app.get('/shops', function (req, res) {
+  res.header('Content-Length', 'application/json');
+
   return shopsModel.find(function(errors, shops) {
     if(errors) {
         console.log(errors);
