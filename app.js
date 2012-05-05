@@ -19,6 +19,12 @@ var drinkers = new Schema({
 
 var drinkerModel = mongodb.model('drinkers', drinkers);  
 
+var shops = new Schema({
+    name: { type: String, required: true },
+    location: { type: String, required: true }
+});
+
+var shopsModel = mongodb.model('shops', shops);  
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -50,6 +56,16 @@ app.get('/drinkers', function (req, res) {
         console.log(errors);
     }else{
         return res.send(drinkers);
+    }
+  });
+});
+
+app.get('/shops', function (req, res) {
+  return shopsModel.find(function(errors, shops) {
+    if(errors) {
+        console.log(errors);
+    }else{
+        return res.send(shops);
     }
   });
 });
