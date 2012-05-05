@@ -71,6 +71,26 @@ app.get('/shops', function (req, res) {
   });
 });
 
+//POST shops - add a shop
+// To run use  curl -X POST -d "name=val1&location=val2" http://localhost:3000/shops/add
+app.post('/shops/add', function (req, res)  {
+  var shop;
+  console.log("POST: ");
+  console.log(req.body);
+  shop = new shopsModel ({
+    name: req.body.name,
+    location: req.body.location,
+  });
+  shop.save(function (err) {
+    if(!err) {
+      return console.log("created a new shop");
+    } else {
+      return console.log(err);
+    }
+  });
+  return res.send(shop);
+});
+
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
