@@ -60,6 +60,7 @@ app.get('/drinkers', function (req, res) {
   });
 });
 
+// GET shops - fetch all Shops
 app.get('/shops', function (req, res) {
   return shopsModel.find(function(errors, shops) {
     if(errors) {
