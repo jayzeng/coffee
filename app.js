@@ -75,6 +75,17 @@ app.get('/shops', function (req, res) {
   });
 });
 
+//READ by ID - fetch a shop by ID
+app.get('/shops/:id', function (req, res) {
+  return shopsModel.findById(req.params.id, function ( err, shop) {
+  if(!err) {
+    return res.send(shop);
+  } else {
+    return console.log(err);
+  }
+  });
+});
+
 //POST shops - add a shop
 // To run use  curl -X POST -d "name=val1&location=val2" http://localhost:3000/shops/add
 app.post('/shops/add', function (req, res)  {
