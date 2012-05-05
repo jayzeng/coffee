@@ -4,12 +4,24 @@
  */
 
 var express = require('express')
-  , routes = require('./routes');
+  , routes = require('./routes')
+  , mongodb = require('mongoose')
+  ;
+
+var Schema = mongodb.Schema;
+
+mongodb.connect('mongodb://coffeedb:coffeedb@ds033217.mongolab.com:33217/coffeedb</password>');
+
+var drinkers = new Schema({
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true }
+});
+
+var drinkerModel = mongodb.model('drinkers', drinkers);  
 
 var app = module.exports = express.createServer();
 
 // Configuration
-
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -28,8 +40,19 @@ app.configure('production', function(){
 });
 
 // Routes
-
 app.get('/', routes.index);
+
+// Routing 
+// GET drinkers - populate all drinkers
+app.get('/drinkers', function (req, res) {
+  return drinkerModel.find(function(errors, drinkers) {
+    if(errors) {
+        console.log(errors);
+    }else{
+        return res.send(drinkers);
+    }
+  });
+});
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
