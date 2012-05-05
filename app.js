@@ -54,6 +54,24 @@ app.get('/drinkers', function (req, res) {
   });
 });
 
+
+app.put('/drinkers/:id', function (req, res){
+  return drinkerModel.findById(req.params.id, function (err, drinker) {
+    drinker.firstName = req.body.firstName;
+    drinker.lastName = req.body.lastName;
+
+    return drinker.save(function (err) {
+      if (!err) {
+        console.log("updated");
+      } else {
+        console.log(err);
+      }
+      return res.send(drinker);
+    });
+  });
+});
+
+
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
