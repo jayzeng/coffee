@@ -54,7 +54,7 @@ app.get('/drinkers', function (req, res) {
   setJsonHeader(res);
 
   return drinkerModel.find(function(errors, drinkers) {
-      parseCallback(errors, shop, res);
+      parseCallback(errors, drinkers, res);
   });
 });
 
