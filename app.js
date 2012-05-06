@@ -10,7 +10,7 @@ var express = require('express')
 
 var Schema = mongodb.Schema;
 
-mongodb.connect('mongodb://coffeedb:coffeedb@ds033217.mongolab.com:33217/coffeedb</password>');
+mongodb.connect('mongodb://coffeedb:coffeedb@ds033217.mongolab.com:33217/coffeedb');
 
 var drinkers = new Schema({
     firstName: { type: String, required: true },
@@ -80,27 +80,34 @@ app.put('/drinkers/:id', function (req, res){
   });
 });
 
-// GET shops - fetch all Shops
-app.get('/shops', function (req, res) {
+function setJsonHeader(res) {
   res.header('Content-Length', 'application/json');
+}
 
-  return shopsModel.find(function(errors, shops) {
+function parseCallback(errors, obj, res) {
     if(errors) {
         console.log(errors);
-    }else{
-        return res.send(shops);
     }
+
+    return res.send(obj);
+}
+
+
+// GET shops - fetch all Shops
+app.get('/shops', function (req, res) {
+  setJsonHeader(res);
+
+  return shopsModel.find(function(errors, shops) {
+      parseCallback(errors, shops, res);
   });
 });
 
 //READ by ID - fetch a shop by ID
 app.get('/shops/:id', function (req, res) {
+  setJsonHeader(res);
+
   return shopsModel.findById(req.params.id, function ( err, shop) {
-  if(!err) {
-    return res.send(shop);
-  } else {
-    return console.log(err);
-  }
+      parseCallback(errors, shop, res);
   });
 });
 
