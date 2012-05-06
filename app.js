@@ -51,15 +51,10 @@ app.get('/', routes.index);
 // Routing 
 // GET drinkers - populate all drinkers
 app.get('/drinkers', function (req, res) {
-  res.header('Content-Length', 'application/json');
-  console.log(res.params);
+  setJsonHeader(res);
 
   return drinkerModel.find(function(errors, drinkers) {
-    if(errors) {
-        console.log(errors);
-    }else{
-        return res.send(drinkers);
-    }
+      parseCallback(errors, shop, res);
   });
 });
 
